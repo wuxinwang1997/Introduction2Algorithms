@@ -6,54 +6,57 @@ int main()
 {
     int n;
     scanf("%d", &n);
-    char * A = new char[n];
-    char * B = new char[n];
-    char * C = new char[n+1];
-    for (int i = 0; i < n+1; i++)
+    string A(n, '0');
+    string B(n, '0');
+    cin >> A;
+    cin >> B;
+    
+    bool flag=false;
+    string res(n+1,'0');
+    
+    for(int x=n-1;x>=0;x--)
     {
-        C[i] = '0';
+        if(A[x]=='0'&&B[x]=='0'&&flag==false)
+        {
+            res[x+1]='0';
+            flag=false;
+        }
+        else if(A[x]=='0'&&B[x]=='0'&&flag==true)
+        {
+            res[x+1]='1';
+            flag=false;
+        }
+        else if((A[x]=='0'&&B[x]=='1'&&flag==false)||(B[x]=='0'&&A[x]=='1'&&flag==false))
+        {
+            res[x+1]='1';
+            flag=false;
+        }
+        else if((A[x]=='0'&&B[x]=='1'&&flag==true)||(B[x]=='0'&&A[x]=='1'&&flag==true))
+        {
+            res[x+1]='0';
+            flag=true;
+        }
+        else if(A[x]=='1'&&B[x]=='1'&&flag==true)
+        {
+            res[x+1]='1';
+            flag=true;
+        }
+        else if(A[x]=='1'&&B[x]=='1'&&flag==false)
+        {
+            res[x+1]='0';
+            flag=true;
+        }
     }
 
-    for (int i = 0; i < n; i++)
+    if(flag==false)
     {
-        scanf("%c", &A[i]);
+        cout << res << endl;
+    }
+    else
+    {
+        res[0] = '1';
+        cout << res << endl;
     }
 
-    for (int i = 0; i < n; i++)
-    {
-        scanf("%c", &B[i]);
-    }
-
-    int carry = 0;
-    int i = 0;
-    for (i = 0; i < n; i++)
-    {
-        C[i] = (A[i] + B[i] + carry) % 2;
-        carry = (A[i] + B[i] + carry) / 2;
-    }
-    C[i] = carry;
-
-    // for(int i = n-1; i > 0; i--)
-    // {
-    //     int tmp = A[i] - '0' + B[i] - '0';
-    //     if (C[i+1] - '0' + tmp < 2)
-    //     {
-    //         C[i+1] = (C[i+1] -'0' + tmp)%2 + '0';
-    //         printf("%c", C[i+1]);
-    //     }
-    //     else
-    //     {
-    //         C[i+1] = '0';
-    //         C[i] = C[i] + '1'-'0';
-    //         printf("%c%c", C[i], C[i+1]);
-    //     }
-    // }
-    // printf("\n");
-    for(int j = 0; j < n+1; j++)
-    {
-        printf("%c", C[j]);
-    }
-
-    printf("\n");
     return 0;
 }
